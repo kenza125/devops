@@ -2,15 +2,24 @@ pipeline {
     agent any
 
     stages {
-        stage('Greetings') {
+        stage('Checkout GIT') {
             steps {
-                echo 'Initial Stage Complete, your jenkins is working'
+                checkout scm
             }
         }
-        stage('Checkout Git') {
+        stage('Compilation') {
             steps {
-                echo 'Pulling...'
-                git branch: 'master', url: 'https://github.com/A7mmad2003/ReactExample1.git'
+                sh 'mvn clean compile'
+            }
+        }
+        stage('Tests unitaires') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+        stage('Package') {
+            steps {
+                sh 'mvn package -DskipTests'
             }
         }
     }

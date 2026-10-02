@@ -1,25 +1,19 @@
 pipeline {
     agent any
 
+    triggers {
+        pollSCM('* * * * *')
+    }
+
     stages {
-        stage('Checkout GIT') {
+        stage('Récupération du code') {
             steps {
                 checkout scm
             }
         }
-        stage('Compilation') {
+        stage('Date système') {
             steps {
-                sh 'mvn clean compile'
-            }
-        }
-        stage('Tests unitaires') {
-            steps {
-                sh 'mvn test'
-            }
-        }
-        stage('Package') {
-            steps {
-                sh 'mvn package -DskipTests'
+                sh 'date'
             }
         }
     }
